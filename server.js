@@ -30,8 +30,6 @@ const start = () => {
         "Add Department",
         "Add Role",
         "Update Employee Role",
-        "Update Department",
-        "Update Role",
         "Exit",
       ],
     })
@@ -54,6 +52,9 @@ const start = () => {
           break;
         case "Add Role":
           addRole();
+          break;
+        case "Update Employee Role":
+          updateRole();
           break;
       }
     });
@@ -182,6 +183,38 @@ function addRole() {
         (err) => {
           if (err) throw err;
           console.log("The role was added successfully!");
+          start();
+        }
+      );
+    });
+}
+
+function updateRole() {
+  inquirer
+    .prompt([
+      {
+        name: "role_update",
+        type: "input",
+        message: "What is the new role id?",
+      },
+      {
+        name: "employee_id",
+        type: "input",
+        message: "What is the employee id?",
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        "UPDATE employee SET ? WHERE ?",
+        {
+          role_id: answer.role_update,
+        },
+        {
+          employee_id: answer.employee_id,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log("The role was updated successfully!");
           start();
         }
       );
