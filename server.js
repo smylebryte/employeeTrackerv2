@@ -30,7 +30,6 @@ const start = () => {
         "Add Department",
         "Add Role",
         "Update Employee Role",
-        "Exit",
       ],
     })
     .then((answer) => {
@@ -203,15 +202,18 @@ function updateRole() {
         message: "What is the employee id?",
       },
     ])
+
     .then((answer) => {
       connection.query(
         "UPDATE employee SET ? WHERE ?",
-        {
-          role_id: answer.role_update,
-        },
-        {
-          employee_id: answer.employee_id,
-        },
+        [
+          {
+            role_id: answer.role_update,
+          },
+          {
+            employee_id: answer.employee_id,
+          },
+        ],
         (err) => {
           if (err) throw err;
           console.log("The role was updated successfully!");
